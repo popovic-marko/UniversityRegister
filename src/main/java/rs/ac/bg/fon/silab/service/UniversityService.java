@@ -15,15 +15,6 @@ import rs.ac.bg.fon.silab.domain.University;
 public class UniversityService {
 
     public static List<University> getAllUniversities() throws Exception {
-        /*GenericDAO g = new GenericDAO();
-        List<IDomain> result = g.findAll("University.findAll");
-        List<University> universities = new LinkedList<>();
-
-        for (IDomain i : result) {
-            universities.add((University) i);
-        }
-
-        return universities;*/
         GenericDAO g = new GenericDAO();
         List<IDomain> result = g.findAll(new University());
         List<University> universities = new LinkedList<>();
@@ -42,22 +33,8 @@ public class UniversityService {
         return loadedUniversity;
     }
 
-    public static /*University*/ University saveUniversity(/*University u*/University university) throws Exception {
-        /*        GenericDAO g = new GenericDAO();
-        University createdUniversity = (University) g.insert(u);
-        
-        return createdUniversity;*/
-
-        GenericDAO g = new GenericDAO();
-        
-/*        for (Contact c : university.getContacts()) {
-            c.setUniversity(university);
-        }
-        
-        for (ManagementPeriod mp : university.getManagementPeriods()) {
-            mp.setUniversity(university);
-        }*/
-        
+    public static University saveUniversity(University university) throws Exception {        
+        GenericDAO g = new GenericDAO();      
         University savedUniversity = (University) g.insert(university);
         
         return savedUniversity;
