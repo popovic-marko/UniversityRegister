@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.silab.persistence;
+package rs.ac.bg.fon.silab.ru.persistence;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

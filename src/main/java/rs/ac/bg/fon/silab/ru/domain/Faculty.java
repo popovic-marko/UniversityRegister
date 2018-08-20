@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.silab.domain;
+package rs.ac.bg.fon.silab.ru.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;

@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import rs.ac.bg.fon.silab.domain.Contact;
-import rs.ac.bg.fon.silab.domain.ManagementPeriod;
-import rs.ac.bg.fon.silab.domain.University;
+import rs.ac.bg.fon.silab.ru.domain.Contact;
+import rs.ac.bg.fon.silab.ru.domain.ManagementPeriod;
+import rs.ac.bg.fon.silab.ru.domain.University;
 import rs.ac.bg.fon.silab.ru.Response;
-import rs.ac.bg.fon.silab.service.UniversityService;
+import rs.ac.bg.fon.silab.ru.service.UniversityService;
 
 /**
  *

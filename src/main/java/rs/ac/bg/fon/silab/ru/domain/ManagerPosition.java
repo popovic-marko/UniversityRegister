@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.silab.domain;
+package rs.ac.bg.fon.silab.ru.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -19,74 +20,62 @@ import javax.validation.constraints.Size;
  * @author user
  */
 @Entity
-@Table(name = "country")
+@Table(name = "manager_position")
 @NamedQueries({
-    @NamedQuery(name = "Country.findAll", query = "SELECT c FROM Country c"),
-    @NamedQuery(name = "Country.findById", query = "SELECT c FROM Country c WHERE c.countryId = :countryId"),
-    @NamedQuery(name = "Country.findByFullName", query = "SELECT c FROM Country c WHERE c.fullName = :fullName"),
-    @NamedQuery(name = "Country.findByAbbreviatedName", query = "SELECT c FROM Country c WHERE c.abbreviatedName = :abbreviatedName")})
+    @NamedQuery(name = "ManagerPosition.findAll", query = "SELECT m FROM ManagerPosition m"),
+    @NamedQuery(name = "ManagerPosition.findById", query = "SELECT m FROM ManagerPosition m WHERE m.positionId = :positionId"),
+    @NamedQuery(name = "ManagerPosition.findByName", query = "SELECT m FROM ManagerPosition m WHERE m.name = :name")})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Country implements IDomain, Serializable {
+public class ManagerPosition implements IDomain, Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "countryId")
-    private Long countryId;
-    @Size(max = 50)
-    @Column(name = "fullName")
-    private String fullName;
-    @Size(max = 5)
-    @Column(name = "abbreviatedName")
-    private String abbreviatedName;
+    @Column(name = "positionId")
+    private Long positionId;
+    @Size(max = 30)
+    @Column(name = "name")
+    private String name;
 
-    public Country() {
+    public ManagerPosition() {
     }
 
-    public Country(Long countryId) {
-        this.countryId = countryId;
+    public ManagerPosition(Long positionId) {
+        this.positionId = positionId;
     }
 
-    public Long getCountryId() {
-        return countryId;
+    public Long getPositionId() {
+        return positionId;
     }
 
-    public void setCountryId(Long countryId) {
-        this.countryId = countryId;
+    public void setPositionId(Long positionId) {
+        this.positionId = positionId;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getAbbreviatedName() {
-        return abbreviatedName;
-    }
-
-    public void setAbbreviatedName(String abbreviatedName) {
-        this.abbreviatedName = abbreviatedName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (countryId != null ? countryId.hashCode() : 0);
+        hash += (positionId != null ? positionId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Country)) {
+        if (!(object instanceof ManagerPosition)) {
             return false;
         }
-        Country other = (Country) object;
-        if ((this.countryId == null && other.countryId != null) || (this.countryId != null && !this.countryId.equals(other.countryId))) {
+        ManagerPosition other = (ManagerPosition) object;
+        if ((this.positionId == null && other.positionId != null) || (this.positionId != null && !this.positionId.equals(other.positionId))) {
             return false;
         }
         return true;
@@ -94,7 +83,7 @@ public class Country implements IDomain, Serializable {
 
     @Override
     public String toString() {
-        return "rs.ac.bg.fon.silab.domen.Country[ countryId=" + countryId + " ]";
+        return "rs.ac.bg.fon.silab.domen.ManagerPosition[ positionId=" + positionId + " ]";
     }
 
     @Override

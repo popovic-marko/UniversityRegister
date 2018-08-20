@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.silab.domain;
+package rs.ac.bg.fon.silab.ru.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
@@ -9,9 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -20,37 +21,51 @@ import javax.validation.constraints.Size;
  * @author user
  */
 @Entity
-@Table(name = "contact_type")
+@Table(name = "city")
 @NamedQueries({
-    @NamedQuery(name = "ContactType.findAll", query = "SELECT c FROM ContactType c"),
-    @NamedQuery(name = "ContactType.findById", query = "SELECT c FROM ContactType c WHERE c.contactTypeId = :contactTypeId"),
-    @NamedQuery(name = "ContactType.findByName", query = "SELECT c FROM ContactType c WHERE c.name = :name")})
+    @NamedQuery(name = "City.findAll", query = "SELECT c FROM City c"),
+    @NamedQuery(name = "City.findById", query = "SELECT c FROM City c WHERE c.cityId = :cityId"),
+    @NamedQuery(name = "City.findByCode", query = "SELECT c FROM City c WHERE c.code = :code"),
+    @NamedQuery(name = "City.findByName", query = "SELECT c FROM City c WHERE c.name = :name")})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ContactType implements IDomain, Serializable {
+public class City implements IDomain, Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "contactTypeId")
-    private Long contactTypeId;
-    @Size(max = 20)
+    @Column(name = "cityId")
+    private Long cityId;
+    @Column(name = "code")
+    private Integer code;
+    @Size(max = 100)
     @Column(name = "name")
     private String name;
+    @JoinColumn(name = "country_fk", referencedColumnName = "countryId")
+    @ManyToOne
+    private Country country;
 
-    public ContactType() {
+    public City() {
     }
 
-    public ContactType(Long contactTypeId) {
-        this.contactTypeId = contactTypeId;
+    public City(Long cityId) {
+        this.cityId = cityId;
     }
 
-    public Long getContactTypeId() {
-        return contactTypeId;
+    public Long getCityId() {
+        return cityId;
     }
 
-    public void setContactTypeId(Long contactTypeId) {
-        this.contactTypeId = contactTypeId;
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -61,21 +76,29 @@ public class ContactType implements IDomain, Serializable {
         this.name = name;
     }
 
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (contactTypeId != null ? contactTypeId.hashCode() : 0);
+        hash += (cityId != null ? cityId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ContactType)) {
+        if (!(object instanceof City)) {
             return false;
         }
-        ContactType other = (ContactType) object;
-        if ((this.contactTypeId == null && other.contactTypeId != null) || (this.contactTypeId != null && !this.contactTypeId.equals(other.contactTypeId))) {
+        City other = (City) object;
+        if ((this.cityId == null && other.cityId != null) || (this.cityId != null && !this.cityId.equals(other.cityId))) {
             return false;
         }
         return true;
@@ -83,7 +106,7 @@ public class ContactType implements IDomain, Serializable {
 
     @Override
     public String toString() {
-        return "rs.ac.bg.fon.silab.domen.ContactType[ contactTypeId=" + contactTypeId + " ]";
+        return "rs.ac.bg.fon.silab.domen.City[ cityId=" + cityId + " ]";
     }
 
     @Override

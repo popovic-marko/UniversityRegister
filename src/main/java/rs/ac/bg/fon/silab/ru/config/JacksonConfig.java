@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.silab.config;
+package rs.ac.bg.fon.silab.ru.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;

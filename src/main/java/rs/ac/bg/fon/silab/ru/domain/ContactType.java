@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.silab.domain;
+package rs.ac.bg.fon.silab.ru.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
@@ -20,37 +20,37 @@ import javax.validation.constraints.Size;
  * @author user
  */
 @Entity
-@Table(name = "rank")
+@Table(name = "contact_type")
 @NamedQueries({
-/*    @NamedQuery(name = "Rank.findAll", query = "SELECT r FROM Rank r"),*/
-    @NamedQuery(name = "Rank.findById", query = "SELECT r FROM Rank r WHERE r.rankId = :rankId"),
-    @NamedQuery(name = "Rank.findByName", query = "SELECT r FROM Rank r WHERE r.name = :name")})
+    @NamedQuery(name = "ContactType.findAll", query = "SELECT c FROM ContactType c"),
+    @NamedQuery(name = "ContactType.findById", query = "SELECT c FROM ContactType c WHERE c.contactTypeId = :contactTypeId"),
+    @NamedQuery(name = "ContactType.findByName", query = "SELECT c FROM ContactType c WHERE c.name = :name")})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Rank implements IDomain, Serializable {
+public class ContactType implements IDomain, Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "rankId")
-    private Long rankId;
-    @Size(max = 50)
+    @Column(name = "contactTypeId")
+    private Long contactTypeId;
+    @Size(max = 20)
     @Column(name = "name")
     private String name;
 
-    public Rank() {
+    public ContactType() {
     }
 
-    public Rank(Long rankId) {
-        this.rankId = rankId;
+    public ContactType(Long contactTypeId) {
+        this.contactTypeId = contactTypeId;
     }
 
-    public Long getRankId() {
-        return rankId;
+    public Long getContactTypeId() {
+        return contactTypeId;
     }
 
-    public void setRankId(Long rankId) {
-        this.rankId = rankId;
+    public void setContactTypeId(Long contactTypeId) {
+        this.contactTypeId = contactTypeId;
     }
 
     public String getName() {
@@ -64,18 +64,18 @@ public class Rank implements IDomain, Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (rankId != null ? rankId.hashCode() : 0);
+        hash += (contactTypeId != null ? contactTypeId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Rank)) {
+        if (!(object instanceof ContactType)) {
             return false;
         }
-        Rank other = (Rank) object;
-        if ((this.rankId == null && other.rankId != null) || (this.rankId != null && !this.rankId.equals(other.rankId))) {
+        ContactType other = (ContactType) object;
+        if ((this.contactTypeId == null && other.contactTypeId != null) || (this.contactTypeId != null && !this.contactTypeId.equals(other.contactTypeId))) {
             return false;
         }
         return true;
@@ -83,7 +83,7 @@ public class Rank implements IDomain, Serializable {
 
     @Override
     public String toString() {
-        return "rs.ac.bg.fon.silab.domen.Rank[ rankId=" + rankId + " ]";
+        return "rs.ac.bg.fon.silab.domen.ContactType[ contactTypeId=" + contactTypeId + " ]";
     }
 
     @Override

@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.silab.dao;
+package rs.ac.bg.fon.silab.ru.dao;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -8,8 +8,8 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import rs.ac.bg.fon.silab.persistence.JPAEntityManagerFactory;
-import rs.ac.bg.fon.silab.domain.IDomain;
+import rs.ac.bg.fon.silab.ru.persistence.JPAEntityManagerFactory;
+import rs.ac.bg.fon.silab.ru.domain.IDomain;
 
 /**
  *

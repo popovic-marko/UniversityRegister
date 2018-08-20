@@ -1,4 +1,4 @@
-package rs.ac.bg.fon.silab.domain;
+package rs.ac.bg.fon.silab.ru.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
@@ -20,37 +20,37 @@ import javax.validation.constraints.Size;
  * @author user
  */
 @Entity
-@Table(name = "manager_position")
+@Table(name = "rank")
 @NamedQueries({
-    @NamedQuery(name = "ManagerPosition.findAll", query = "SELECT m FROM ManagerPosition m"),
-    @NamedQuery(name = "ManagerPosition.findById", query = "SELECT m FROM ManagerPosition m WHERE m.positionId = :positionId"),
-    @NamedQuery(name = "ManagerPosition.findByName", query = "SELECT m FROM ManagerPosition m WHERE m.name = :name")})
+/*    @NamedQuery(name = "Rank.findAll", query = "SELECT r FROM Rank r"),*/
+    @NamedQuery(name = "Rank.findById", query = "SELECT r FROM Rank r WHERE r.rankId = :rankId"),
+    @NamedQuery(name = "Rank.findByName", query = "SELECT r FROM Rank r WHERE r.name = :name")})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ManagerPosition implements IDomain, Serializable {
+public class Rank implements IDomain, Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "positionId")
-    private Long positionId;
-    @Size(max = 30)
+    @Column(name = "rankId")
+    private Long rankId;
+    @Size(max = 50)
     @Column(name = "name")
     private String name;
 
-    public ManagerPosition() {
+    public Rank() {
     }
 
-    public ManagerPosition(Long positionId) {
-        this.positionId = positionId;
+    public Rank(Long rankId) {
+        this.rankId = rankId;
     }
 
-    public Long getPositionId() {
-        return positionId;
+    public Long getRankId() {
+        return rankId;
     }
 
-    public void setPositionId(Long positionId) {
-        this.positionId = positionId;
+    public void setRankId(Long rankId) {
+        this.rankId = rankId;
     }
 
     public String getName() {
@@ -64,18 +64,18 @@ public class ManagerPosition implements IDomain, Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (positionId != null ? positionId.hashCode() : 0);
+        hash += (rankId != null ? rankId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ManagerPosition)) {
+        if (!(object instanceof Rank)) {
             return false;
         }
-        ManagerPosition other = (ManagerPosition) object;
-        if ((this.positionId == null && other.positionId != null) || (this.positionId != null && !this.positionId.equals(other.positionId))) {
+        Rank other = (Rank) object;
+        if ((this.rankId == null && other.rankId != null) || (this.rankId != null && !this.rankId.equals(other.rankId))) {
             return false;
         }
         return true;
@@ -83,7 +83,7 @@ public class ManagerPosition implements IDomain, Serializable {
 
     @Override
     public String toString() {
-        return "rs.ac.bg.fon.silab.domen.ManagerPosition[ positionId=" + positionId + " ]";
+        return "rs.ac.bg.fon.silab.domen.Rank[ rankId=" + rankId + " ]";
     }
 
     @Override
