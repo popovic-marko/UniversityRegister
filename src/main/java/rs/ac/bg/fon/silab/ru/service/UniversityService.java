@@ -3,9 +3,7 @@ package rs.ac.bg.fon.silab.ru.service;
 import java.util.LinkedList;
 import java.util.List;
 import rs.ac.bg.fon.silab.ru.dao.GenericDAO;
-import rs.ac.bg.fon.silab.ru.domain.Contact;
 import rs.ac.bg.fon.silab.ru.domain.IDomain;
-import rs.ac.bg.fon.silab.ru.domain.ManagementPeriod;
 import rs.ac.bg.fon.silab.ru.domain.University;
 
 /**
