@@ -1,6 +1,5 @@
 package rs.ac.bg.fon.silab.ru.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -35,7 +34,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Faculty.findByDurationOfStudies", query = "SELECT f FROM Faculty f WHERE f.durationOfStudies = :durationOfStudies"),
     @NamedQuery(name = "Faculty.findByDateOfAccreditation", query = "SELECT f FROM Faculty f WHERE f.dateOfAccreditation = :dateOfAccreditation"),
     @NamedQuery(name = "Faculty.findByCapacity", query = "SELECT f FROM Faculty f WHERE f.capacity = :capacity")})
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Faculty implements IDomain, Serializable {
 
     private static final long serialVersionUID = 1L;

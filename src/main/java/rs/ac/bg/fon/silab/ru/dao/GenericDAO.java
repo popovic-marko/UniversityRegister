@@ -1,27 +1,25 @@
 package rs.ac.bg.fon.silab.ru.dao;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import rs.ac.bg.fon.silab.ru.persistence.JPAEntityManagerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import rs.ac.bg.fon.silab.ru.domain.IDomain;
 
 /**
  *
  * @author user
  */
+@Component
 public class GenericDAO {
-
+    @Autowired
     EntityManagerFactory emf;
     EntityManager em;
 
     public GenericDAO() {
-        emf = JPAEntityManagerFactory.getInstance();
     }
 
     public IDomain insert(IDomain entity) throws Exception {

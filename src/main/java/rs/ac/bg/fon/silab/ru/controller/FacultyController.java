@@ -1,13 +1,14 @@
 package rs.ac.bg.fon.silab.ru.controller;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import rs.ac.bg.fon.silab.ru.Response;
-import rs.ac.bg.fon.silab.ru.domain.Faculty;
+import rs.ac.bg.fon.silab.ru.dto.FacultyDTO;
 import rs.ac.bg.fon.silab.ru.service.FacultyService;
 
 /**
@@ -16,12 +17,14 @@ import rs.ac.bg.fon.silab.ru.service.FacultyService;
  */
 @Controller
 public class FacultyController {
+    @Autowired
+    FacultyService facultyService;
     
     @RequestMapping(value = "/faculties", method = RequestMethod.GET)
     public Response getAllFaculties() {
         Response response;
         try {
-            List<Faculty> faculties = FacultyService.getAllFaculties();
+            List<FacultyDTO> faculties = facultyService.getAllFaculties();
             response = new Response("success", faculties);
         } catch(Exception ex) {
             response = new Response("failure", null, "Greska prilikom ucitavanja fakulteta!");
@@ -33,7 +36,7 @@ public class FacultyController {
     public Response getFaculty(@PathVariable long id) {
         Response response;
         try {
-            Faculty faculty = FacultyService.getFaculty(id);
+            FacultyDTO faculty = facultyService.getFaculty(id);
             response = new Response("success", faculty);
         } catch(Exception ex) {
             response = new Response("failure", null, "Greska prilikom ucitavanja fakulteta ciji je id:" + id + "!");
@@ -43,10 +46,10 @@ public class FacultyController {
     }
     
     @RequestMapping(value = "/faculties", method = RequestMethod.POST)
-    public Response saveFaculty(@RequestBody Faculty faculty) {
+    public Response saveFaculty(@RequestBody FacultyDTO faculty) {
         Response response;
         try {
-            Faculty createdFaculty = FacultyService.saveFaculty(faculty);
+            FacultyDTO createdFaculty = facultyService.saveFaculty(faculty);
             response = new Response("success", createdFaculty);
         } catch(Exception ex) {
             response = new Response("failure", ex.getMessage());
@@ -56,11 +59,11 @@ public class FacultyController {
     }
     
     @RequestMapping(value = "/faculties/{id}", method = RequestMethod.PUT)
-    public Response updateFaculty(@PathVariable long id, @RequestBody Faculty faculty) {
+    public Response updateFaculty(@PathVariable long id, @RequestBody FacultyDTO faculty) {
         Response response;
         try {
             faculty.setFacultyId(id);
-            Faculty updatedFaculty = FacultyService.updateFaculty(faculty);
+            FacultyDTO updatedFaculty = facultyService.updateFaculty(faculty);
             response = new Response("success", updatedFaculty);
         } catch(Exception ex) {
             response = new Response("failure", null, ex.getMessage());
@@ -72,8 +75,8 @@ public class FacultyController {
     public Response deleteFaculty(@PathVariable long id) {
         Response response;
         try {
-            Faculty faculty = FacultyService.getFaculty(id);
-            FacultyService.deleteFaculty(faculty);
+            FacultyDTO faculty = facultyService.getFaculty(id);
+            facultyService.deleteFaculty(faculty);
             
             response = new Response("success");
         } catch(Exception ex) {

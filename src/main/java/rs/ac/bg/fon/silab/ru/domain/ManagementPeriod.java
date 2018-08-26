@@ -1,7 +1,5 @@
 package rs.ac.bg.fon.silab.ru.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -57,7 +55,6 @@ public class ManagementPeriod implements IDomain, Serializable {
     private Manager universityManager;
     @JoinColumn(name = "university_fk", referencedColumnName = "universityId")
     @ManyToOne
-    @JsonBackReference
     private University university;
 
     public ManagementPeriod() {
@@ -91,7 +88,6 @@ public class ManagementPeriod implements IDomain, Serializable {
         this.dateTo = dateTo;
     }
     
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public Faculty getFaculty() {
         return faculty;
     }
@@ -108,7 +104,6 @@ public class ManagementPeriod implements IDomain, Serializable {
         this.position = position;
     }
     
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public Manager getFacultyManager() {
         return facultyManager;
     }
@@ -117,7 +112,6 @@ public class ManagementPeriod implements IDomain, Serializable {
         this.facultyManager = facultyManager;
     }
     
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public Manager getUniversityManager() {
         return universityManager;
     }
@@ -126,7 +120,6 @@ public class ManagementPeriod implements IDomain, Serializable {
         this.universityManager = universityManager;
     }
     
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public University getUniversity() {
         return university;
     }

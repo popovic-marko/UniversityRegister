@@ -1,8 +1,6 @@
 package rs.ac.bg.fon.silab.ru.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +25,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "City.findById", query = "SELECT c FROM City c WHERE c.cityId = :cityId"),
     @NamedQuery(name = "City.findByCode", query = "SELECT c FROM City c WHERE c.code = :code"),
     @NamedQuery(name = "City.findByName", query = "SELECT c FROM City c WHERE c.name = :name")})
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class City implements IDomain, Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -1,7 +1,5 @@
 package rs.ac.bg.fon.silab.ru.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -37,7 +35,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "University.findByNumberOfFaculty", query = "SELECT u FROM University u WHERE u.numberOfFaculty = :numberOfFaculty"),
     @NamedQuery(name = "University.findById", query = "SELECT u FROM University u LEFT OUTER JOIN FETCH u.contacts c LEFT OUTER JOIN FETCH u.managementPeriods mp WHERE u.universityId = :universityId"),
     @NamedQuery(name = "University.findAll", query = "SELECT u FROM University u LEFT OUTER JOIN FETCH u.contacts c LEFT OUTER JOIN FETCH u.managementPeriods mp ORDER BY u.universityId")})
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class University implements IDomain, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,10 +58,8 @@ public class University implements IDomain, Serializable {
     @ManyToOne
     private City city;
     @OneToMany(mappedBy = "university", cascade = CascadeType.ALL)
-    @JsonManagedReference
     private Set<Contact> contacts;
     @OneToMany(mappedBy = "university", cascade = CascadeType.ALL)
-    @JsonManagedReference
     private Set<ManagementPeriod> managementPeriods;
 
     public University() {

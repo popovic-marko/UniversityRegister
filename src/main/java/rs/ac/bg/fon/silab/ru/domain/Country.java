@@ -1,8 +1,6 @@
 package rs.ac.bg.fon.silab.ru.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,8 +22,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Country.findAll", query = "SELECT c FROM Country c"),
     @NamedQuery(name = "Country.findById", query = "SELECT c FROM Country c WHERE c.countryId = :countryId"),
     @NamedQuery(name = "Country.findByFullName", query = "SELECT c FROM Country c WHERE c.fullName = :fullName"),
-    @NamedQuery(name = "Country.findByAbbreviatedName", query = "SELECT c FROM Country c WHERE c.abbreviatedName = :abbreviatedName")})
-@JsonInclude(JsonInclude.Include.NON_NULL)
+    @NamedQuery(name = "Country.findByAbbreviatedName", query = "SELECT c FROM Country c WHERE c.countryISO = :countryISO")})
 public class Country implements IDomain, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,7 +36,7 @@ public class Country implements IDomain, Serializable {
     private String fullName;
     @Size(max = 5)
     @Column(name = "abbreviatedName")
-    private String abbreviatedName;
+    private String countryISO;
 
     public Country() {
     }
@@ -64,12 +61,12 @@ public class Country implements IDomain, Serializable {
         this.fullName = fullName;
     }
 
-    public String getAbbreviatedName() {
-        return abbreviatedName;
+    public String getCountryISO() {
+        return countryISO;
     }
 
-    public void setAbbreviatedName(String abbreviatedName) {
-        this.abbreviatedName = abbreviatedName;
+    public void setCountryISO(String countryISO) {
+        this.countryISO = countryISO;
     }
 
     @Override

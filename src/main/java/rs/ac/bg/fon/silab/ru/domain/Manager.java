@@ -1,6 +1,5 @@
 package rs.ac.bg.fon.silab.ru.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -26,7 +25,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Manager.findByManagerId", query = "SELECT m FROM Manager m WHERE m.managerId = :managerId"),
     @NamedQuery(name = "Manager.findByFirstName", query = "SELECT m FROM Manager m WHERE m.firstName = :firstName"),
     @NamedQuery(name = "Manager.findByLastName", query = "SELECT m FROM Manager m WHERE m.lastName = :lastName")})
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Manager implements IDomain, Serializable {
 
     private static final long serialVersionUID = 1L;

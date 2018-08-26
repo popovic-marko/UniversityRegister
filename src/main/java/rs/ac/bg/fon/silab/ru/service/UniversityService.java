@@ -2,52 +2,79 @@ package rs.ac.bg.fon.silab.ru.service;
 
 import java.util.LinkedList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.silab.ru.dao.GenericDAO;
+import rs.ac.bg.fon.silab.ru.domain.Contact;
 import rs.ac.bg.fon.silab.ru.domain.IDomain;
+import rs.ac.bg.fon.silab.ru.domain.ManagementPeriod;
 import rs.ac.bg.fon.silab.ru.domain.University;
+import rs.ac.bg.fon.silab.ru.dto.UniversityDTO;
+import rs.ac.bg.fon.silab.ru.mapper.UniversityMapper;
 
 /**
  *
  * @author user
  */
+@Service
 public class UniversityService {
+    @Autowired
+    GenericDAO genericDao;
 
-    public static List<University> getAllUniversities() throws Exception {
-        GenericDAO g = new GenericDAO();
-        List<IDomain> result = g.findAll(new University());
-        List<University> universities = new LinkedList<>();
+    public List<UniversityDTO> getAllUniversities() throws Exception {
+        List<IDomain> result = genericDao.findAll(new University());
+        List<UniversityDTO> universities = new LinkedList<>();
         for (IDomain item : result) {
-            universities.add((University) item);
+            University university = (University) item;
+            UniversityDTO universityDTO = UniversityMapper.INSTANCE.universityToUniversityDTO(university);
+            universities.add(universityDTO);
         }
         
         return universities;
     }
 
-    public static University getUniversity(long id) throws Exception {
-        GenericDAO g = new GenericDAO();
-        University u = new University(id);
-        University loadedUniversity = (University) g.findById(u);
+    public UniversityDTO getUniversity(long id) throws Exception {
+        University university = new University(id);
 
-        return loadedUniversity;
-    }
-
-    public static University saveUniversity(University university) throws Exception {        
-        GenericDAO g = new GenericDAO();      
-        University savedUniversity = (University) g.insert(university);
+        University loadedUniversity = (University) genericDao.findById(university);
+        UniversityDTO loadedUniversityDTO = UniversityMapper.INSTANCE.universityToUniversityDTO(loadedUniversity);
         
-        return savedUniversity;
+        return loadedUniversityDTO;
     }
 
-    public static University updateUniversity(University u) throws Exception {
-        GenericDAO g = new GenericDAO();
-        University updatedUniversity = (University) g.update(u);
-
-        return updatedUniversity;
+    public UniversityDTO saveUniversity(UniversityDTO universityDTO) throws Exception {        
+        University university = UniversityMapper.INSTANCE.universityDTOToUniversity(universityDTO);
+        for (Contact contact : university.getContacts()) {
+            contact.setUniversity(university);
+        }
+        for (ManagementPeriod managementPeriod : university.getManagementPeriods()) {
+            managementPeriod.setUniversity(university);
+        }
+        
+        University savedUniversity = (University) genericDao.insert(university);
+        UniversityDTO savedUniversityDTO = UniversityMapper.INSTANCE.universityToUniversityDTO(savedUniversity);
+        
+        return savedUniversityDTO;
     }
 
-    public static void deleteUniversity(University u) throws Exception{
-        GenericDAO g = new GenericDAO();
-        g.delete(u);
+    public UniversityDTO updateUniversity(UniversityDTO universityDTO) throws Exception {
+        University university = UniversityMapper.INSTANCE.universityDTOToUniversity(universityDTO);
+        for (Contact contact : university.getContacts()) {
+            contact.setUniversity(university);
+        }
+        for (ManagementPeriod managementPeriod : university.getManagementPeriods()) {
+            managementPeriod.setUniversity(university);
+        }
+        
+        University updatedUniversity = (University) genericDao.update(university);
+        UniversityDTO updatedUniversityDTO = UniversityMapper.INSTANCE.universityToUniversityDTO(updatedUniversity);
+        
+        return updatedUniversityDTO;
+    }
+
+    public void deleteUniversity(/*UniversityDTO universityDTO*/ Long universityId) throws Exception{
+        University university = new University(universityId);
+        genericDao.delete(university);
     } 
 
 }

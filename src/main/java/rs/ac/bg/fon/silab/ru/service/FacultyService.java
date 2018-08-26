@@ -2,51 +2,80 @@ package rs.ac.bg.fon.silab.ru.service;
 
 import java.util.LinkedList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.silab.ru.dao.GenericDAO;
+import rs.ac.bg.fon.silab.ru.domain.Contact;
 import rs.ac.bg.fon.silab.ru.domain.Faculty;
 import rs.ac.bg.fon.silab.ru.domain.IDomain;
+import rs.ac.bg.fon.silab.ru.domain.ManagementPeriod;
+import rs.ac.bg.fon.silab.ru.domain.University;
+import rs.ac.bg.fon.silab.ru.dto.FacultyDTO;
+import rs.ac.bg.fon.silab.ru.mapper.FacultyMapper;
 
 /**
  *
  * @author user
  */
+@Service
 public class FacultyService {
-
-    public static List<Faculty> getAllFaculties() throws Exception {
-        GenericDAO g = new GenericDAO();
-        List<IDomain> result = g.findAll(new Faculty());
-        List<Faculty> faculties = new LinkedList<>();
+    @Autowired
+    GenericDAO genericDao;
+    
+    public List<FacultyDTO> getAllFaculties() throws Exception {
+        List<IDomain> result = genericDao.findAll(new Faculty());
+        List<FacultyDTO> faculties = new LinkedList<>();
         for (IDomain item : result) {
-            faculties.add((Faculty) item);
+            Faculty faculty = (Faculty) item;
+            FacultyDTO facultyDTO = FacultyMapper.INSTANCE.facultyToFacultyDTO(faculty);
+            faculties.add(facultyDTO);
         }
         
         return faculties;
     }
 
-    public static Faculty getFaculty(long id) throws Exception {
-        GenericDAO g = new GenericDAO();
+    public FacultyDTO getFaculty(long id) throws Exception {
         Faculty f = new Faculty(id);
-        Faculty loadedFaculty = (Faculty) g.findById(f);
-
-        return loadedFaculty;
-    }
-
-    public static Faculty saveFaculty(Faculty faculty) throws Exception {
-        GenericDAO g = new GenericDAO();      
-        Faculty savedFaculty = (Faculty) g.insert(faculty);
         
-        return savedFaculty;
+        Faculty loadedFaculty = (Faculty) genericDao.findById(f);
+        FacultyDTO loadedFacultyDTO = FacultyMapper.INSTANCE.facultyToFacultyDTO(loadedFaculty);
+        
+        return loadedFacultyDTO;
     }
 
-    public static Faculty updateFaculty(Faculty faculty) throws Exception {
-        GenericDAO g = new GenericDAO();
-        Faculty updatedFaculty = (Faculty) g.update(faculty);
-
-        return updatedFaculty;
+    public FacultyDTO saveFaculty(FacultyDTO facultyDTO) throws Exception {
+        Faculty faculty = FacultyMapper.INSTANCE.facultyDTOToFaculty(facultyDTO);
+        for (Contact contact : faculty.getContacts()) {
+            contact.setFaculty(faculty);
+        }
+        for (ManagementPeriod managementPeriod : faculty.getManagementPeriods()) {
+            managementPeriod.setFaculty(faculty);
+        }
+        
+        Faculty savedFaculty = (Faculty) genericDao.insert(faculty);
+        FacultyDTO savedFacultyDTO = FacultyMapper.INSTANCE.facultyToFacultyDTO(savedFaculty);
+        
+        return savedFacultyDTO;
     }
 
-    public static void deleteFaculty(Faculty faculty) throws Exception {
-        GenericDAO g = new GenericDAO();
-        g.delete(faculty);
+    public FacultyDTO updateFaculty(FacultyDTO facultyDTO) throws Exception {
+        Faculty faculty = FacultyMapper.INSTANCE.facultyDTOToFaculty(facultyDTO);
+        for (Contact contact : faculty.getContacts()) {
+            contact.setFaculty(faculty);
+        }
+        for (ManagementPeriod managementPeriod : faculty.getManagementPeriods()) {
+            managementPeriod.setFaculty(faculty);
+        }
+        
+        Faculty updatedFaculty = (Faculty) genericDao.update(faculty);
+        FacultyDTO updatedFacultyDTO = FacultyMapper.INSTANCE.facultyToFacultyDTO(updatedFaculty);
+
+        return updatedFacultyDTO;
+    }
+
+    public void deleteFaculty(FacultyDTO facultyDTO) throws Exception {
+        Faculty faculty = FacultyMapper.INSTANCE.facultyDTOToFaculty(facultyDTO);
+        
+        genericDao.delete(faculty);
     }
 }

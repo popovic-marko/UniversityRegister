@@ -1,7 +1,5 @@
 package rs.ac.bg.fon.silab.ru.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -26,7 +24,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Contact.findAll", query = "SELECT c FROM Contact c"),
     @NamedQuery(name = "Contact.findById", query = "SELECT c FROM Contact c WHERE c.contactId = :contactId"),
     @NamedQuery(name = "Contact.findByValue", query = "SELECT c FROM Contact c WHERE c.value = :value")})
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Contact implements IDomain, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,7 +43,6 @@ public class Contact implements IDomain, Serializable {
     private Faculty faculty;
     @JoinColumn(name = "university_fk", referencedColumnName = "universityId")
     @ManyToOne
-    @JsonBackReference
     private University university;
 
     public Contact() {
