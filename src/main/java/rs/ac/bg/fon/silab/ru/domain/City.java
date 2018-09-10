@@ -24,7 +24,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "City.findAll", query = "SELECT c FROM City c"),
     @NamedQuery(name = "City.findById", query = "SELECT c FROM City c WHERE c.cityId = :cityId"),
     @NamedQuery(name = "City.findByCode", query = "SELECT c FROM City c WHERE c.code = :code"),
-    @NamedQuery(name = "City.findByName", query = "SELECT c FROM City c WHERE c.name = :name")})
+    @NamedQuery(name = "City.findByName", query = "SELECT c FROM City c WHERE c.name = :name"),
+    @NamedQuery(name = "City.findByNameOnlyIdAndName", query = "SELECT c.cityId, c.name FROM City c"
+            + " WHERE c.name LIKE CONCAT('%', :name, '%') ORDER BY c.name")})
 public class City implements IDomain, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,6 +51,11 @@ public class City implements IDomain, Serializable {
         this.cityId = cityId;
     }
 
+    public City(Long cityId, String name) {
+        this.cityId = cityId;
+        this.name = name;
+    }
+    
     public Long getCityId() {
         return cityId;
     }

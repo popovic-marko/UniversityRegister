@@ -1,12 +1,16 @@
 package rs.ac.bg.fon.silab.ru.dao;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import rs.ac.bg.fon.silab.ru.domain.City;
+import rs.ac.bg.fon.silab.ru.domain.Country;
 import rs.ac.bg.fon.silab.ru.domain.IDomain;
 
 /**
@@ -164,7 +168,49 @@ public class GenericDAO {
 
     }
 
-    public void findByQuery() {
-    }
+    public List<IDomain> findByQueryName(String queryName, Map<String, Object> params) throws Exception {
+        try {
+            em = emf.createEntityManager();
+            Query q = em.createNamedQuery(queryName);
+            
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                q.setParameter(key, value);
+            }
+            
+            List<IDomain> entities = q.getResultList();
+            em.close();
 
+            return entities;
+        } catch (Exception e) {
+            if(em != null) {
+                em.close();
+            }
+            throw new Exception("Greska prilikom ucitavanja");
+        }
+    }
+    
+    public List<Object[]> findByQuery(String query, Map<String, Object> params) throws Exception{
+        try {
+            em = emf.createEntityManager();
+            Query q = em.createNativeQuery(query);
+            
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                q.setParameter(key, value);
+            }
+            
+            List<Object[]> entities = q.getResultList();
+            em.close();
+
+            return entities;
+        } catch (Exception e) {
+            if(em != null) {
+                em.close();
+            }
+            throw new Exception("Greska prilikom ucitavanja");
+        }
+    }
 }

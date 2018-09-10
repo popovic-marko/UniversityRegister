@@ -53,6 +53,12 @@ public class Manager implements IDomain, Serializable {
         this.managerId = managerId;
     }
 
+    public Manager(Long managerId, String firstName, String lastName) {
+        this.managerId = managerId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public Long getManagerId() {
         return managerId;
     }

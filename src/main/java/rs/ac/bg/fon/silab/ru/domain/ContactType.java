@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "contact_type")
 @NamedQueries({
-    @NamedQuery(name = "ContactType.findAll", query = "SELECT c FROM ContactType c"),
+    @NamedQuery(name = "ContactType.findAll", query = "SELECT c FROM ContactType c ORDER BY c.name"),
     @NamedQuery(name = "ContactType.findById", query = "SELECT c FROM ContactType c WHERE c.contactTypeId = :contactTypeId"),
     @NamedQuery(name = "ContactType.findByName", query = "SELECT c FROM ContactType c WHERE c.name = :name")})
 public class ContactType implements IDomain, Serializable {

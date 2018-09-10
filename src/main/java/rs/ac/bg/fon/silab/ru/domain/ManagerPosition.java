@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "manager_position")
 @NamedQueries({
-    @NamedQuery(name = "ManagerPosition.findAll", query = "SELECT m FROM ManagerPosition m"),
+    @NamedQuery(name = "ManagerPosition.findAll", query = "SELECT m FROM ManagerPosition m ORDER BY m.name"),
     @NamedQuery(name = "ManagerPosition.findById", query = "SELECT m FROM ManagerPosition m WHERE m.positionId = :positionId"),
     @NamedQuery(name = "ManagerPosition.findByName", query = "SELECT m FROM ManagerPosition m WHERE m.name = :name")})
 public class ManagerPosition implements IDomain, Serializable {
