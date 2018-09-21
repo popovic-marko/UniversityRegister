@@ -2,8 +2,9 @@ package rs.ac.bg.fon.silab.ru.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,14 +28,17 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "faculty")
 @NamedQueries({
-    @NamedQuery(name = "Faculty.findAll", query = "SELECT f FROM Faculty f"),
-    @NamedQuery(name = "Faculty.findById", query = "SELECT f FROM Faculty f WHERE f.facultyId = :facultyId"),
+    @NamedQuery(name = "Faculty.findAllShort", query = "SELECT f FROM Faculty f ORDER BY f.name"),
+    @NamedQuery(name = "Faculty.findByIdShort", query = "SELECT f FROM Faculty f WHERE f.facultyId = :facultyId"),
     @NamedQuery(name = "Faculty.findByName", query = "SELECT f FROM Faculty f WHERE f.name = :name"),
     @NamedQuery(name = "Faculty.findByType", query = "SELECT f FROM Faculty f WHERE f.type = :type"),
     @NamedQuery(name = "Faculty.findByTermsOfEnrollment", query = "SELECT f FROM Faculty f WHERE f.termsOfEnrollment = :termsOfEnrollment"),
     @NamedQuery(name = "Faculty.findByDurationOfStudies", query = "SELECT f FROM Faculty f WHERE f.durationOfStudies = :durationOfStudies"),
     @NamedQuery(name = "Faculty.findByDateOfAccreditation", query = "SELECT f FROM Faculty f WHERE f.dateOfAccreditation = :dateOfAccreditation"),
-    @NamedQuery(name = "Faculty.findByCapacity", query = "SELECT f FROM Faculty f WHERE f.capacity = :capacity")})
+    @NamedQuery(name = "Faculty.findByCapacity", query = "SELECT f FROM Faculty f WHERE f.capacity = :capacity"),
+    @NamedQuery(name = "Faculty.findAllByUniversityId", query = "SELECT f.facultyId, f.name FROM Faculty f WHERE f.university.universityId = :universityId"),
+    @NamedQuery(name = "Faculty.findAll", query = "SELECT f FROM Faculty f LEFT OUTER JOIN FETCH f.contacts c LEFT OUTER JOIN FETCH f.managementPeriods mp ORDER BY f.facultyId"),
+    @NamedQuery(name = "Faculty.findById", query = "SELECT f FROM Faculty f LEFT OUTER JOIN FETCH f.contacts c LEFT OUTER JOIN FETCH f.managementPeriods mp WHERE f.facultyId = :facultyId")})
 public class Faculty implements IDomain, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,27 +47,37 @@ public class Faculty implements IDomain, Serializable {
     @Basic(optional = false)
     @Column(name = "facultyId")
     private Long facultyId;
+    
     @Size(max = 100)
     @Column(name = "name")
     private String name;
+    
     @Size(max = 20)
     @Column(name = "type")
     private String type;
+    
     @Size(max = 250)
     @Column(name = "termsOfEnrollment")
     private String termsOfEnrollment;
+    
     @Size(max = 50)
     @Column(name = "durationOfStudies")
     private String durationOfStudies;
+    
     @Column(name = "dateOfAccreditation")
     @Temporal(TemporalType.DATE)
     private Date dateOfAccreditation;
+    
     @Column(name = "capacity")
     private Integer capacity;
-    @OneToMany(mappedBy = "faculty")
-    private List<Contact> contacts;
-    @OneToMany(mappedBy = "faculty")
-    private List<ManagementPeriod> managementPeriods;
+    
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Contact> contacts;
+    
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("dateFrom")
+    private Set<ManagementPeriod> managementPeriods;
+    
     @JoinColumn(name = "university_fk", referencedColumnName = "universityId")
     @ManyToOne
     private University university;
@@ -74,6 +89,11 @@ public class Faculty implements IDomain, Serializable {
         this.facultyId = facultyId;
     }
 
+    public Faculty(Long facultyId, String name) {
+        this.facultyId = facultyId;
+        this.name = name;
+    }
+    
     public Long getFacultyId() {
         return facultyId;
     }
@@ -130,19 +150,19 @@ public class Faculty implements IDomain, Serializable {
         this.capacity = capacity;
     }
 
-    public List<Contact> getContacts() {
+    public Set<Contact> getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<Contact> contacts) {
+    public void setContacts(Set<Contact> contacts) {
         this.contacts = contacts;
     }
 
-    public List<ManagementPeriod> getManagementPeriods() {
+    public Set<ManagementPeriod> getManagementPeriods() {
         return managementPeriods;
     }
 
-    public void setManagementPeriods(List<ManagementPeriod> managementPeriods) {
+    public void setManagementPeriods(Set<ManagementPeriod> managementPeriods) {
         this.managementPeriods = managementPeriods;
     }
 
@@ -181,12 +201,12 @@ public class Faculty implements IDomain, Serializable {
 
     @Override
     public Long returnPrimaryKeyValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return facultyId;
     }
 
     @Override
     public String returnPrimaryKeyName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "facultyId";
     }
 
     @Override

@@ -1,6 +1,5 @@
 package rs.ac.bg.fon.silab.ru.dao;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +8,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import rs.ac.bg.fon.silab.ru.domain.City;
-import rs.ac.bg.fon.silab.ru.domain.Country;
 import rs.ac.bg.fon.silab.ru.domain.IDomain;
 
 /**

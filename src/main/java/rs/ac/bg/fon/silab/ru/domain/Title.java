@@ -30,6 +30,7 @@ public class Title implements IDomain, Serializable {
     @Basic(optional = false)
     @Column(name = "titleId")
     private Long titleId;
+	
     @Size(max = 50)
     @Column(name = "name")
     private String name;

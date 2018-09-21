@@ -30,6 +30,7 @@ public class ManagerPosition implements IDomain, Serializable {
     @Basic(optional = false)
     @Column(name = "positionId")
     private Long positionId;
+	
     @Size(max = 30)
     @Column(name = "name")
     private String name;

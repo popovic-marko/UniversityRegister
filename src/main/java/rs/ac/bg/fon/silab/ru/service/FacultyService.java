@@ -9,7 +9,6 @@ import rs.ac.bg.fon.silab.ru.domain.Contact;
 import rs.ac.bg.fon.silab.ru.domain.Faculty;
 import rs.ac.bg.fon.silab.ru.domain.IDomain;
 import rs.ac.bg.fon.silab.ru.domain.ManagementPeriod;
-import rs.ac.bg.fon.silab.ru.domain.University;
 import rs.ac.bg.fon.silab.ru.dto.FacultyDTO;
 import rs.ac.bg.fon.silab.ru.mapper.FacultyMapper;
 
@@ -73,9 +72,8 @@ public class FacultyService {
         return updatedFacultyDTO;
     }
 
-    public void deleteFaculty(FacultyDTO facultyDTO) throws Exception {
-        Faculty faculty = FacultyMapper.INSTANCE.facultyDTOToFaculty(facultyDTO);
-        
+    public void deleteFaculty(Long facultyId) throws Exception {
+        Faculty faculty = new Faculty(facultyId);
         genericDao.delete(faculty);
     }
 }

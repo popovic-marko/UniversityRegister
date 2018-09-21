@@ -33,15 +33,19 @@ public class Manager implements IDomain, Serializable {
     @Basic(optional = false)
     @Column(name = "managerId")
     private Long managerId;
+	
     @Size(max = 50)
     @Column(name = "firstName")
     private String firstName;
+	
     @Size(max = 50)
     @Column(name = "lastName")
     private String lastName;
+	
     @JoinColumn(name = "rank_fk", referencedColumnName = "rankId")
     @ManyToOne
     private Rank rank;
+	
     @JoinColumn(name = "title_fk", referencedColumnName = "titleId")
     @ManyToOne
     private Title title;

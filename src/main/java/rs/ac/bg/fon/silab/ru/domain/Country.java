@@ -31,11 +31,13 @@ public class Country implements IDomain, Serializable {
     @Basic(optional = false)
     @Column(name = "countryId")
     private Long countryId;
+	
     @Size(max = 50)
     @Column(name = "fullName")
     private String fullName;
+	
     @Size(max = 5)
-    @Column(name = "abbreviatedName")
+    @Column(name = "countryIso")
     private String countryISO;
 
     public Country() {

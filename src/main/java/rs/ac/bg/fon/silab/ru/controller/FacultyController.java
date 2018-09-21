@@ -52,7 +52,7 @@ public class FacultyController {
             FacultyDTO createdFaculty = facultyService.saveFaculty(faculty);
             response = new Response("success", createdFaculty);
         } catch(Exception ex) {
-            response = new Response("failure", ex.getMessage());
+            response = new Response("failure", null, ex.getMessage());
         }
                 
         return response;
@@ -68,6 +68,7 @@ public class FacultyController {
         } catch(Exception ex) {
             response = new Response("failure", null, ex.getMessage());
         }
+        
         return response;
     }
     
@@ -75,13 +76,13 @@ public class FacultyController {
     public Response deleteFaculty(@PathVariable long id) {
         Response response;
         try {
-            FacultyDTO faculty = facultyService.getFaculty(id);
-            facultyService.deleteFaculty(faculty);
+            facultyService.deleteFaculty(id);
             
-            response = new Response("success");
+            response = new Response("success", null);
         } catch(Exception ex) {
             response = new Response("failure", null, ex.getMessage());
         }
+        
         return response;
     }
 }

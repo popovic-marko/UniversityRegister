@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -32,15 +33,19 @@ public class Contact implements IDomain, Serializable {
     @Basic(optional = false)
     @Column(name = "contactId")
     private Long contactId;
+    
     @Size(max = 50)
     @Column(name = "value")
     private String value;
+    
     @JoinColumn(name = "contact_type_fk", referencedColumnName = "contactTypeId")
     @ManyToOne
     private ContactType contactType;
+    
     @JoinColumn(name = "faculty_fk", referencedColumnName = "facultyId")
     @ManyToOne
     private Faculty faculty;
+    
     @JoinColumn(name = "university_fk", referencedColumnName = "universityId")
     @ManyToOne
     private University university;

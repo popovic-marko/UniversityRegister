@@ -25,6 +25,51 @@ public class ManagerService {
     @Autowired
     GenericDAO genericDao;
 
+    public List<ManagerDTO> getAllManagers() throws Exception{
+        List<IDomain> result = genericDao.findAll(new Manager());
+        List<ManagerDTO> managers = new LinkedList<>();
+        for (IDomain item : result) {
+            Manager manager = (Manager) item;
+            ManagerDTO managerDTO = ManagerMapper.INSTANCE.managerToManagerDTO(manager);
+            managers.add(managerDTO);
+        }
+        
+        return managers;
+    }
+    
+    public ManagerDTO getManager(long id) throws Exception{
+        Manager manager = new Manager(id);
+
+        Manager loadedManager = (Manager) genericDao.findById(manager);
+        ManagerDTO loadedManagerDTO = ManagerMapper.INSTANCE.managerToManagerDTO(loadedManager);
+        
+        return loadedManagerDTO;
+    }
+    
+    public ManagerDTO saveManager(ManagerDTO managerDTO) throws Exception {
+        Manager manager = ManagerMapper.INSTANCE.managerDTOToManager(managerDTO);
+        
+        Manager savedManager = (Manager) genericDao.insert(manager);
+        ManagerDTO savedManagerDTO = ManagerMapper.INSTANCE.managerToManagerDTO(savedManager);
+        
+        return savedManagerDTO;
+    }
+    
+    public ManagerDTO updateManager(ManagerDTO managerDTO) throws Exception {
+        Manager manager = ManagerMapper.INSTANCE.managerDTOToManager(managerDTO);
+
+        Manager updatedManager = (Manager) genericDao.update(manager);
+        ManagerDTO updatedManagerDTO = ManagerMapper.INSTANCE.managerToManagerDTO(updatedManager);
+        
+        return updatedManagerDTO;
+    }
+    
+    public void deleteManager(long id) throws Exception {
+        Manager manager = new Manager(id);
+        genericDao.delete(manager);
+    }
+    
+    
     public List<ManagerPositionDTO> getAllManagerPositions() throws Exception{
         List<IDomain> result = genericDao.findAll(new ManagerPosition());
         List<ManagerPositionDTO> managerPositions = new LinkedList<>();
@@ -64,5 +109,5 @@ public class ManagerService {
         
         return managers;
     }
-    
+
 }

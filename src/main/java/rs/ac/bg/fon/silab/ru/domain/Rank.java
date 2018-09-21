@@ -30,6 +30,7 @@ public class Rank implements IDomain, Serializable {
     @Basic(optional = false)
     @Column(name = "rankId")
     private Long rankId;
+	
     @Size(max = 50)
     @Column(name = "name")
     private String name;

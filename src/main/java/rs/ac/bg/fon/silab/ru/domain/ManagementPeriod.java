@@ -35,24 +35,31 @@ public class ManagementPeriod implements IDomain, Serializable {
     @Basic(optional = false)
     @Column(name = "managingId")
     private Long managingId;
+	
     @Column(name = "dateFrom")
     @Temporal(TemporalType.DATE)
     private Date dateFrom;
+	
     @Column(name = "dateTo")
     @Temporal(TemporalType.DATE)
     private Date dateTo;
+	
     @JoinColumn(name = "faculty_fk", referencedColumnName = "facultyId")
     @ManyToOne
     private Faculty faculty;
+	
     @JoinColumn(name = "position_fk", referencedColumnName = "positionId")
     @ManyToOne
     private ManagerPosition position;
+	
     @JoinColumn(name = "manager_f_fk", referencedColumnName = "managerId")
     @ManyToOne
     private Manager facultyManager;
+	
     @JoinColumn(name = "manager_u_fk", referencedColumnName = "managerId")
     @ManyToOne
     private Manager universityManager;
+	
     @JoinColumn(name = "university_fk", referencedColumnName = "universityId")
     @ManyToOne
     private University university;

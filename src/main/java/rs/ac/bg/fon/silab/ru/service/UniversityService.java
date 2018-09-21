@@ -1,15 +1,20 @@
 package rs.ac.bg.fon.silab.ru.service;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.silab.ru.dao.GenericDAO;
 import rs.ac.bg.fon.silab.ru.domain.Contact;
+import rs.ac.bg.fon.silab.ru.domain.Faculty;
 import rs.ac.bg.fon.silab.ru.domain.IDomain;
 import rs.ac.bg.fon.silab.ru.domain.ManagementPeriod;
 import rs.ac.bg.fon.silab.ru.domain.University;
+import rs.ac.bg.fon.silab.ru.dto.FacultyDTO;
 import rs.ac.bg.fon.silab.ru.dto.UniversityDTO;
+import rs.ac.bg.fon.silab.ru.mapper.FacultyMapper;
 import rs.ac.bg.fon.silab.ru.mapper.UniversityMapper;
 
 /**
@@ -64,8 +69,8 @@ public class UniversityService {
         }
         for (ManagementPeriod managementPeriod : university.getManagementPeriods()) {
             managementPeriod.setUniversity(university);
-        }
-        
+        }   
+
         University updatedUniversity = (University) genericDao.update(university);
         UniversityDTO updatedUniversityDTO = UniversityMapper.INSTANCE.universityToUniversityDTO(updatedUniversity);
         
@@ -76,5 +81,45 @@ public class UniversityService {
         University university = new University(universityId);
         genericDao.delete(university);
     } 
+
+    public List<FacultyDTO> getAllFacultyByUniversity(long id) throws Exception{
+        Map<String, Object> params = new HashMap<>();
+        params.put("universityId", id);
+        
+        List<IDomain> result = genericDao.findByQueryName("Faculty.findAllByUniversityId", params);
+        List<FacultyDTO> faculties = new LinkedList<>();
+        
+        for(Object item : result) {
+            Object[] array = (Object[]) item;
+            Long facultyId = (Long) array[0];
+            String name = (String) array[1];
+            
+            Faculty faculty = new Faculty(facultyId, name);
+            FacultyDTO facultyDTO = FacultyMapper.INSTANCE.facultyToFacultyDTO(faculty);
+            faculties.add(facultyDTO);
+        }
+        
+        return faculties;
+    }
+
+    public List<UniversityDTO> getUniversitiesBySearchName(String searchTerm) throws Exception{
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", searchTerm);
+        
+        List<IDomain> result = genericDao.findByQueryName("University.findByNameOnlyIdAndName", params);
+        List<UniversityDTO> universities = new LinkedList<>();
+
+        for (Object item : result) {
+            Object[] array = (Object[]) item; 
+            Long universityId = (Long) array[0];
+            String name = (String) array[1];
+            
+            University university = new University(universityId, name);
+            UniversityDTO universityDTO = UniversityMapper.INSTANCE.universityToUniversityDTO(university);
+            universities.add(universityDTO);
+        }
+        
+        return universities;
+    }
 
 }

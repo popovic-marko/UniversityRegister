@@ -30,6 +30,7 @@ public class ContactType implements IDomain, Serializable {
     @Basic(optional = false)
     @Column(name = "contactTypeId")
     private Long contactTypeId;
+	
     @Size(max = 20)
     @Column(name = "name")
     private String name;

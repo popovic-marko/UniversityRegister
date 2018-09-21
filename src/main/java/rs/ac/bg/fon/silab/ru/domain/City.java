@@ -35,11 +35,14 @@ public class City implements IDomain, Serializable {
     @Basic(optional = false)
     @Column(name = "cityId")
     private Long cityId;
+	
     @Column(name = "code")
     private Integer code;
+	
     @Size(max = 100)
     @Column(name = "name")
     private String name;
+	
     @JoinColumn(name = "country_fk", referencedColumnName = "countryId")
     @ManyToOne
     private Country country;

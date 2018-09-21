@@ -2,13 +2,14 @@ package rs.ac.bg.fon.silab.ru.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.bg.fon.silab.ru.Response;
+import rs.ac.bg.fon.silab.ru.dto.FacultyDTO;
 import rs.ac.bg.fon.silab.ru.dto.UniversityDTO;
 import rs.ac.bg.fon.silab.ru.service.UniversityService;
 
@@ -46,6 +47,19 @@ public class UniversityController {
         
         return response;
     } 
+    
+    @RequestMapping(value = "/universities/{id}/faculties", method = RequestMethod.GET)
+    public Response getAllFacultyByUniversity(@PathVariable long id) {
+        Response response;
+        try {
+            List<FacultyDTO> faculties = universityService.getAllFacultyByUniversity(id);
+            response = new Response("success", faculties);
+        } catch (Exception ex) {
+            response = new Response("failure", null, "Greska prilikom ucitavanja univerziteta ciji je id:" + id + "!");
+        }
+        
+        return response;
+    }
     
     @RequestMapping(value = "/universities", method = RequestMethod.POST)
     public Response saveUniversity(@RequestBody UniversityDTO university) {
@@ -86,4 +100,17 @@ public class UniversityController {
         
         return response;
     } 
+    
+    @RequestMapping(value = "/universities/search", method = RequestMethod.GET)
+    public Response getUniversitiesBySearchName(@RequestParam String searchTerm) {
+        Response response;
+        try {
+            List<UniversityDTO> universities = universityService.getUniversitiesBySearchName(searchTerm);
+            response = new Response("success", universities);
+        } catch (Exception ex) {
+            response = new Response("failure", null, "Greska prilikom ucitavanja univerziteta!");
+        }
+        
+        return response;
+    }
 }
