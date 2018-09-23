@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.ac.bg.fon.silab.ru.Response;
 import rs.ac.bg.fon.silab.ru.dto.ManagerDTO;
 import rs.ac.bg.fon.silab.ru.dto.ManagerPositionDTO;
+import rs.ac.bg.fon.silab.ru.dto.RankDTO;
+import rs.ac.bg.fon.silab.ru.dto.TitleDTO;
 import rs.ac.bg.fon.silab.ru.service.ManagerService;
 
 /**
@@ -87,9 +89,7 @@ public class ManagerController {
         
         return response;
     } 
-    
-    
-    
+
     @RequestMapping(value = "/managers/managerPositions", method = RequestMethod.GET)
     public Response getAllManagerPositions() {
         Response response;
@@ -104,11 +104,52 @@ public class ManagerController {
         return response;
     }
     
-    @RequestMapping(value = "/managers", method = RequestMethod.GET)
+    @RequestMapping(value = "/managers/search", method = RequestMethod.GET)
     public Response getManagersBySearchName(@RequestParam String searchTerm) {
         Response response;
         try {
             List<ManagerDTO> managers = managerService.getManagersBySearchName(searchTerm);
+            response = new Response("success", managers);
+        } catch (Exception ex) {
+            response = new Response("failure", null, "Greska prilikom ucitavanja rukovodilaca!");
+        }
+        
+        return response;
+    }
+    
+    @RequestMapping(value = "/managers/titles", method = RequestMethod.GET)
+    public Response getAllManagerTitles() {
+        Response response;
+        try {
+            List<TitleDTO> titles = managerService.getAllManagerTitles();
+            response = new Response("success", titles);
+        } catch (Exception ex) {
+            System.out.println("======================== " + ex.getMessage() + " ==============");
+            response = new Response("failure", null, "Greska prilikom ucitavanja titula rukovodilaca!");
+        }
+        
+        return response;
+    }
+    
+    @RequestMapping(value = "/managers/ranks", method = RequestMethod.GET)
+    public Response getAllManagerRanks() {
+        Response response;
+        try {
+            List<RankDTO> ranks = managerService.getAllManagerRanks();
+            response = new Response("success", ranks);
+        } catch (Exception ex) {
+            System.out.println("======================== " + ex.getMessage() + " ==============");
+            response = new Response("failure", null, "Greska prilikom ucitavanja zvanja rukovodilaca!");
+        }
+        
+        return response;
+    }
+    
+    @RequestMapping(value = "/managers/searchAll", method = RequestMethod.GET)
+    public Response getManagersByCriteria(@RequestParam String criteria) {
+        Response response;
+        try {
+            List<ManagerDTO> managers = managerService.getManagersByCriteria(criteria);
             response = new Response("success", managers);
         } catch (Exception ex) {
             response = new Response("failure", null, "Greska prilikom ucitavanja rukovodilaca!");

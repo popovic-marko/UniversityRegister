@@ -11,10 +11,16 @@ import rs.ac.bg.fon.silab.ru.dao.GenericDAO;
 import rs.ac.bg.fon.silab.ru.domain.IDomain;
 import rs.ac.bg.fon.silab.ru.domain.Manager;
 import rs.ac.bg.fon.silab.ru.domain.ManagerPosition;
+import rs.ac.bg.fon.silab.ru.domain.Rank;
+import rs.ac.bg.fon.silab.ru.domain.Title;
 import rs.ac.bg.fon.silab.ru.dto.ManagerDTO;
 import rs.ac.bg.fon.silab.ru.dto.ManagerPositionDTO;
+import rs.ac.bg.fon.silab.ru.dto.RankDTO;
+import rs.ac.bg.fon.silab.ru.dto.TitleDTO;
 import rs.ac.bg.fon.silab.ru.mapper.ManagerMapper;
 import rs.ac.bg.fon.silab.ru.mapper.ManagerPositionMapper;
+import rs.ac.bg.fon.silab.ru.mapper.RankMapper;
+import rs.ac.bg.fon.silab.ru.mapper.TitleMapper;
 
 /**
  *
@@ -103,6 +109,46 @@ public class ManagerService {
             String lastName = (String) item[2];
             Manager manager = new Manager(managerId, firstName, lastName);
             
+            ManagerDTO managerDTO = ManagerMapper.INSTANCE.managerToManagerDTO(manager);
+            managers.add(managerDTO);
+        }
+        
+        return managers;
+    }
+
+    public List<TitleDTO> getAllManagerTitles() throws Exception {
+        List<IDomain> result = genericDao.findAll(new Title());
+        List<TitleDTO> titles = new LinkedList<>();
+        for (IDomain item : result) {
+            Title title = (Title) item;
+            TitleDTO titleDTO = TitleMapper.INSTANCE.titleToTitleDTO(title);
+            titles.add(titleDTO);
+        }
+        
+        return titles;
+    }
+
+    public List<RankDTO> getAllManagerRanks() throws Exception{
+        List<IDomain> result = genericDao.findAll(new Rank());
+        List<RankDTO> ranks = new LinkedList<>();
+        for (IDomain item : result) {
+            Rank rank = (Rank) item;
+            RankDTO rankDTO = RankMapper.INSTANCE.rankToRankDTO(rank);
+            ranks.add(rankDTO);
+        }
+        
+        return ranks;
+    }
+
+    public List<ManagerDTO> getManagersByCriteria(String criteria) throws Exception{
+        Map<String, Object> params = new HashMap<>();
+        params.put("term", criteria);
+        
+        List<IDomain> result = genericDao.findByQueryName("Manager.findBySearchCriteria", params);
+        List<ManagerDTO> managers = new LinkedList<>();
+
+        for (IDomain item : result) {
+            Manager manager = (Manager) item;
             ManagerDTO managerDTO = ManagerMapper.INSTANCE.managerToManagerDTO(manager);
             managers.add(managerDTO);
         }

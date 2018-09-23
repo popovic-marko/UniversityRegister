@@ -21,10 +21,13 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "manager")
 @NamedQueries({
-    @NamedQuery(name = "Manager.findAll", query = "SELECT m FROM Manager m"),
-    @NamedQuery(name = "Manager.findByManagerId", query = "SELECT m FROM Manager m WHERE m.managerId = :managerId"),
+    @NamedQuery(name = "Manager.findAll", query = "SELECT m FROM Manager m ORDER BY m.lastName, m.firstName"),
+    @NamedQuery(name = "Manager.findById", query = "SELECT m FROM Manager m WHERE m.managerId = :managerId"),
     @NamedQuery(name = "Manager.findByFirstName", query = "SELECT m FROM Manager m WHERE m.firstName = :firstName"),
-    @NamedQuery(name = "Manager.findByLastName", query = "SELECT m FROM Manager m WHERE m.lastName = :lastName")})
+    @NamedQuery(name = "Manager.findByLastName", query = "SELECT m FROM Manager m WHERE m.lastName = :lastName"),
+    @NamedQuery(name = "Manager.findBySearchCriteria", query = "SELECT m FROM Manager m WHERE m.lastName LIKE " + 
+            "CONCAT('%', :term, '%') OR m.firstName LIKE CONCAT('%', :term, '%') OR m.title.name LIKE " +
+            "CONCAT('%', :term, '%') OR m.rank.name LIKE CONCAT('%', :term, '%') ORDER BY m.lastName, m.firstName")})
 public class Manager implements IDomain, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -130,12 +133,12 @@ public class Manager implements IDomain, Serializable {
 
     @Override
     public Long returnPrimaryKeyValue() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return managerId;
     }
 
     @Override
     public String returnPrimaryKeyName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "managerId";
     }
 
     @Override

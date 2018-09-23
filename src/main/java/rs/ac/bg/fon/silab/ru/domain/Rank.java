@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "rank")
 @NamedQueries({
-/*    @NamedQuery(name = "Rank.findAll", query = "SELECT r FROM Rank r"),*/
+    @NamedQuery(name = "Rank.findAll", query = "SELECT r FROM Rank r ORDER BY r.name"),
     @NamedQuery(name = "Rank.findById", query = "SELECT r FROM Rank r WHERE r.rankId = :rankId"),
     @NamedQuery(name = "Rank.findByName", query = "SELECT r FROM Rank r WHERE r.name = :name")})
 public class Rank implements IDomain, Serializable {

@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "title")
 @NamedQueries({
-    @NamedQuery(name = "Title.findAll", query = "SELECT t FROM Title t"),
+    @NamedQuery(name = "Title.findAll", query = "SELECT t FROM Title t ORDER BY t.name"),
     @NamedQuery(name = "Title.findById", query = "SELECT t FROM Title t WHERE t.titleId = :titleId"),
     @NamedQuery(name = "Title.findByName", query = "SELECT t FROM Title t WHERE t.name = :name")})
 public class Title implements IDomain, Serializable {
