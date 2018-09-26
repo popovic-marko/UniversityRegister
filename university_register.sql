@@ -1,8 +1,8 @@
 /*
 SQLyog Community v12.2.1 (64 bit)
-MySQL - 5.7.9 : Database - universityregister
+MySQL - 5.7.9 : Database - university_register
 *********************************************************************
-*/
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -12,10 +12,24 @@ MySQL - 5.7.9 : Database - universityregister
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`universityregister` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`university_register` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-USE `universityregister`;
+USE `university_register`;
 
+/*Table structure for table `access_token` */
+
+DROP TABLE IF EXISTS `access_token`;
+
+CREATE TABLE `access_token` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `token` varchar(255) DEFAULT NULL,
+  `expire` timestamp NULL DEFAULT NULL,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `TOKEN` (`token`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `access_token_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `city` */
 
@@ -29,8 +43,7 @@ CREATE TABLE `city` (
   PRIMARY KEY (`cityId`),
   KEY `city_country_fk` (`country_fk`),
   CONSTRAINT `city_country_fk` FOREIGN KEY (`country_fk`) REFERENCES `country` (`countryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `contact` */
 
@@ -43,14 +56,13 @@ CREATE TABLE `contact` (
   `contact_type_fk` bigint(20) unsigned DEFAULT NULL,
   `faculty_fk` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`contactId`),
-  KEY `contact_faculty_fk` (`faculty_fk`),
   KEY `contact_contact_type_fk` (`contact_type_fk`),
+  KEY `contact_faculty_fk` (`faculty_fk`),
   KEY `contact_university_fk` (`university_fk`),
   CONSTRAINT `contact_contact_type_fk` FOREIGN KEY (`contact_type_fk`) REFERENCES `contact_type` (`contactTypeId`),
-  CONSTRAINT `contact_faculty_fk` FOREIGN KEY (`faculty_fk`) REFERENCES `faculty` (`facultyId`),
+  CONSTRAINT `contact_faculty_fk` FOREIGN KEY (`faculty_fk`) REFERENCES `faculty` (`facultyId`) ON DELETE CASCADE,
   CONSTRAINT `contact_university_fk` FOREIGN KEY (`university_fk`) REFERENCES `university` (`universityId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `contact_type` */
 
@@ -60,8 +72,7 @@ CREATE TABLE `contact_type` (
   `contactTypeId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`contactTypeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `country` */
 
@@ -70,10 +81,9 @@ DROP TABLE IF EXISTS `country`;
 CREATE TABLE `country` (
   `countryId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `fullName` varchar(50) DEFAULT NULL,
-  `abbreviatedName` varchar(5) DEFAULT NULL,
+  `countryIso` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`countryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `faculty` */
 
@@ -91,8 +101,7 @@ CREATE TABLE `faculty` (
   PRIMARY KEY (`facultyId`),
   KEY `faculty_university_fk` (`university_fk`),
   CONSTRAINT `faculty_university_fk` FOREIGN KEY (`university_fk`) REFERENCES `university` (`universityId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `management_period` */
 
@@ -109,17 +118,16 @@ CREATE TABLE `management_period` (
   `manager_f_fk` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`managingId`),
   KEY `management_period_management_position_fk` (`position_fk`),
-  KEY `management_period_manager_u_fk` (`manager_u_fk`),
+  KEY `management_period_university_fk` (`university_fk`),
   KEY `management_period_faculty_fk` (`faculty_fk`),
   KEY `management_period_manager_f_fk` (`manager_f_fk`),
-  KEY `management_period_university_fk` (`university_fk`),
-  CONSTRAINT `management_period_faculty_fk` FOREIGN KEY (`faculty_fk`) REFERENCES `faculty` (`facultyId`),
+  KEY `management_period_manager_u_fk` (`manager_u_fk`),
+  CONSTRAINT `management_period_faculty_fk` FOREIGN KEY (`faculty_fk`) REFERENCES `faculty` (`facultyId`) ON DELETE CASCADE,
   CONSTRAINT `management_period_management_position_fk` FOREIGN KEY (`position_fk`) REFERENCES `manager_position` (`positionId`),
   CONSTRAINT `management_period_manager_f_fk` FOREIGN KEY (`manager_f_fk`) REFERENCES `manager` (`managerId`),
   CONSTRAINT `management_period_manager_u_fk` FOREIGN KEY (`manager_u_fk`) REFERENCES `manager` (`managerId`),
   CONSTRAINT `management_period_university_fk` FOREIGN KEY (`university_fk`) REFERENCES `university` (`universityId`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `manager` */
 
@@ -136,8 +144,7 @@ CREATE TABLE `manager` (
   KEY `manager_title_fk` (`title_fk`),
   CONSTRAINT `manager_rank_fk` FOREIGN KEY (`rank_fk`) REFERENCES `rank` (`rankId`),
   CONSTRAINT `manager_title_fk` FOREIGN KEY (`title_fk`) REFERENCES `title` (`titleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `manager_position` */
 
@@ -147,8 +154,7 @@ CREATE TABLE `manager_position` (
   `positionId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`positionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `rank` */
 
@@ -158,8 +164,7 @@ CREATE TABLE `rank` (
   `rankId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`rankId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `title` */
 
@@ -169,8 +174,7 @@ CREATE TABLE `title` (
   `titleId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`titleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `university` */
 
@@ -181,13 +185,24 @@ CREATE TABLE `university` (
   `name` varchar(250) DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
   `dateOfEstablishment` date DEFAULT NULL,
-  `numberOfFaculty` int(10) DEFAULT NULL,
   `city_fk` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`universityId`),
   KEY `university_city_fk` (`city_fk`),
   CONSTRAINT `university_city_fk` FOREIGN KEY (`city_fk`) REFERENCES `city` (`cityId`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `user` */
+
+DROP TABLE IF EXISTS `user`;
+
+CREATE TABLE `user` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `role` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `USERNAME` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
