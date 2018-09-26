@@ -12,7 +12,7 @@ public class CityValidator implements Validator{
     @Override
     public boolean validate(Object entity) {
         if(entity == null) {
-            message = "Morate uneti grad.";
+            message = "Morate uneti grad.\n";
             return false;
         }
         
@@ -20,15 +20,15 @@ public class CityValidator implements Validator{
         CityDTO city = (CityDTO) entity;
         
         if(city.getName() == null || city.getName().equals("")) {
-            message += "Morate uneti naziv grada.";
+            message += "Morate uneti naziv grada.\n";
         } else if(city.getName().length() > 100) {
-            message += "Naziv grada ne sme biti duži od 100 karaktera.";
+            message += "Naziv grada ne sme biti duži od 100 karaktera.\n";
         }
         
         if(city.getCode() == null) {
-            message += "Morate uneti poštanski broj grada.";
+            message += "Morate uneti poštanski broj grada.\n";
         } else if(String.valueOf(city.getCode()).length() > 10) {
-            message += "Poštanski broj grada ne sme biti duži od 10 cifara.";
+            message += "Poštanski broj grada ne sme biti duži od 10 cifara.\n";
         }
         
         Validator countryValidator = ValidatorFactory.create("country");

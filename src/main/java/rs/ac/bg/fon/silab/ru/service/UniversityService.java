@@ -16,6 +16,8 @@ import rs.ac.bg.fon.silab.ru.dto.FacultyDTO;
 import rs.ac.bg.fon.silab.ru.dto.UniversityDTO;
 import rs.ac.bg.fon.silab.ru.mapper.FacultyMapper;
 import rs.ac.bg.fon.silab.ru.mapper.UniversityMapper;
+import rs.ac.bg.fon.silab.ru.validator.Validator;
+import rs.ac.bg.fon.silab.ru.validator.ValidatorFactory;
 
 /**
  *
@@ -47,7 +49,12 @@ public class UniversityService {
         return loadedUniversityDTO;
     }
 
-    public UniversityDTO saveUniversity(UniversityDTO universityDTO) throws Exception {        
+    public UniversityDTO saveUniversity(UniversityDTO universityDTO) throws Exception {   
+        Validator universityValidator = ValidatorFactory.create("university");
+        if(!universityValidator.validate(universityDTO)) {
+            throw new Exception(universityValidator.getErrorMessage());
+        }
+        
         University university = UniversityMapper.INSTANCE.universityDTOToUniversity(universityDTO);
         for (Contact contact : university.getContacts()) {
             contact.setUniversity(university);
@@ -63,6 +70,11 @@ public class UniversityService {
     }
 
     public UniversityDTO updateUniversity(UniversityDTO universityDTO) throws Exception {
+        Validator universityValidator = ValidatorFactory.create("university");
+        if(!universityValidator.validate(universityDTO)) {
+            throw new Exception(universityValidator.getErrorMessage());
+        }
+        
         University university = UniversityMapper.INSTANCE.universityDTOToUniversity(universityDTO);
         for (Contact contact : university.getContacts()) {
             contact.setUniversity(university);
@@ -77,7 +89,7 @@ public class UniversityService {
         return updatedUniversityDTO;
     }
 
-    public void deleteUniversity(/*UniversityDTO universityDTO*/ Long universityId) throws Exception{
+    public void deleteUniversity(Long universityId) throws Exception{
         University university = new University(universityId);
         genericDao.delete(university);
     } 

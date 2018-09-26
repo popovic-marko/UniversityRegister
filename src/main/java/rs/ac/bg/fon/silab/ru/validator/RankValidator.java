@@ -12,7 +12,7 @@ public class RankValidator implements Validator{
     @Override
     public boolean validate(Object entity) {
         if(entity == null) {
-            message = "Morate uneti zvanje.";
+            message = "Morate uneti zvanje.\n";
             return false;
         }
         
@@ -20,9 +20,9 @@ public class RankValidator implements Validator{
         RankDTO rank = (RankDTO) entity;
         
         if(rank.getName() == null || rank.getName().equals("")) {
-            message += "Morate uneti naziv zvanja.";
+            message += "Morate uneti naziv zvanja.\n";
         } else if(rank.getName().length() > 20) {
-            message += "Naziv zvanja ne sme biti duži od 20 karaktera.";
+            message += "Naziv zvanja ne sme biti duži od 20 karaktera.\n";
         }
         
         return message.equals("");

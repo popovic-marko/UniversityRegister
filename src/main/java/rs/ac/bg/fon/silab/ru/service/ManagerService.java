@@ -21,6 +21,8 @@ import rs.ac.bg.fon.silab.ru.mapper.ManagerMapper;
 import rs.ac.bg.fon.silab.ru.mapper.ManagerPositionMapper;
 import rs.ac.bg.fon.silab.ru.mapper.RankMapper;
 import rs.ac.bg.fon.silab.ru.mapper.TitleMapper;
+import rs.ac.bg.fon.silab.ru.validator.Validator;
+import rs.ac.bg.fon.silab.ru.validator.ValidatorFactory;
 
 /**
  *
@@ -53,6 +55,11 @@ public class ManagerService {
     }
     
     public ManagerDTO saveManager(ManagerDTO managerDTO) throws Exception {
+        Validator managerValidator = ValidatorFactory.create("manager");
+        if(!managerValidator.validate(managerDTO)) {
+            throw new Exception(managerValidator.getErrorMessage());
+        }
+        
         Manager manager = ManagerMapper.INSTANCE.managerDTOToManager(managerDTO);
         
         Manager savedManager = (Manager) genericDao.insert(manager);

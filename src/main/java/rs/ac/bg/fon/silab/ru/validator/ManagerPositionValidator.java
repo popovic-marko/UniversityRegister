@@ -12,7 +12,7 @@ public class ManagerPositionValidator implements Validator{
     @Override
     public boolean validate(Object entity) {
         if(entity == null) {
-            message = "Morate uneti poziciju rukovodioca.";
+            message = "Morate uneti poziciju rukovodioca.\n";
             return false;
         }
         
@@ -20,9 +20,9 @@ public class ManagerPositionValidator implements Validator{
         ManagerPositionDTO managerPosition = (ManagerPositionDTO) entity;
         
         if(managerPosition.getName() == null || managerPosition.getName().equals("")) {
-            message += "Morate uneti naziv pozicije.";
+            message += "Morate uneti naziv pozicije.\n";
         } else if(managerPosition.getName().length() > 30) {
-            message += "Naziv pozicije ne sme biti duži od 30 karaktera.";
+            message += "Naziv pozicije ne sme biti duži od 30 karaktera.\n";
         }
         
         return message.equals("");

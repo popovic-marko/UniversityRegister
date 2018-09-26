@@ -12,7 +12,7 @@ public class ContactTypeValidator implements Validator{
     @Override
     public boolean validate(Object entity) {
         if(entity == null) {
-            message = "Morate uneti tip kontakta.";
+            message = "Morate uneti tip kontakta.\n";
             return false;
         }
         
@@ -20,9 +20,9 @@ public class ContactTypeValidator implements Validator{
         ContactTypeDTO contactType = (ContactTypeDTO) entity;
         
         if(contactType.getName() == null || contactType.getName().equals("")) {
-            message += "Morate uneti naziv tipa kontakta.";
+            message += "Morate uneti naziv tipa kontakta.\n";
         } else if(contactType.getName().length() > 20) {
-            message += "Naziv tipa kontakta ne sme biti duži od 20 karaktera.";
+            message += "Naziv tipa kontakta ne sme biti duži od 20 karaktera.\n";
         }
         
         return message.equals("");

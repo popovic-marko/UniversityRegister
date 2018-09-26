@@ -12,7 +12,7 @@ public class TitleValidator implements Validator{
     @Override
     public boolean validate(Object entity) {
         if(entity == null) {
-            message = "Morate uneti titulu.";
+            message = "Morate uneti titulu.\n";
             return false;
         }
         
@@ -20,9 +20,9 @@ public class TitleValidator implements Validator{
         TitleDTO title = (TitleDTO) entity;
         
         if(title.getName() == null || title.getName().equals("")) {
-            message += "Morate uneti naziv titule.";
+            message += "Morate uneti naziv titule.\n";
         } else if(title.getName().length() > 50) {
-            message += "Naziv titule ne sme biti duži od 50 karaktera.";
+            message += "Naziv titule ne sme biti duži od 50 karaktera.\n";
         }
         
         return message.equals("");

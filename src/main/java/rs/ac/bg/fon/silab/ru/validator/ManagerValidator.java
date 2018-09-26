@@ -12,7 +12,7 @@ public class ManagerValidator implements Validator{
     @Override
     public boolean validate(Object entity) {
         if(entity == null) {
-            message = "Morate uneti rukovodica.";
+            message = "Morate uneti rukovodica.\n";
             return false;
         }
         
@@ -20,15 +20,15 @@ public class ManagerValidator implements Validator{
         ManagerDTO manager = (ManagerDTO) entity;
         
         if(manager.getFirstName() == null || manager.getFirstName().equals("")) {
-            message += "Morate uneti ime rukovodioca.";
+            message += "Morate uneti ime rukovodioca.\n";
         } else if(manager.getFirstName().length() > 50) {
-            message += "Ime rukovodioca ne sme biti duže od 50 karaktera.";
+            message += "Ime rukovodioca ne sme biti duže od 50 karaktera.\n";
         }
         
         if(manager.getLastName() == null || manager.getLastName().equals("")) {
-            message += "Morate uneti prezime rukovodioca.";
+            message += "Morate uneti prezime rukovodioca.\n";
         } else if(manager.getLastName().length() > 50) {
-            message += "Prezime rukovodioca ne sme biti duže od 50 karaktera.";
+            message += "Prezime rukovodioca ne sme biti duže od 50 karaktera.\n";
         }
         
         Validator rankValidator = ValidatorFactory.create("rank");

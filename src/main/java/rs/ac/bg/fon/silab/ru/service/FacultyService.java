@@ -11,6 +11,8 @@ import rs.ac.bg.fon.silab.ru.domain.IDomain;
 import rs.ac.bg.fon.silab.ru.domain.ManagementPeriod;
 import rs.ac.bg.fon.silab.ru.dto.FacultyDTO;
 import rs.ac.bg.fon.silab.ru.mapper.FacultyMapper;
+import rs.ac.bg.fon.silab.ru.validator.Validator;
+import rs.ac.bg.fon.silab.ru.validator.ValidatorFactory;
 
 /**
  *
@@ -43,6 +45,11 @@ public class FacultyService {
     }
 
     public FacultyDTO saveFaculty(FacultyDTO facultyDTO) throws Exception {
+        Validator facultyValidator = ValidatorFactory.create("faculty");
+        if(!facultyValidator.validate(facultyDTO)) {
+            throw new Exception(facultyValidator.getErrorMessage());
+        }
+        
         Faculty faculty = FacultyMapper.INSTANCE.facultyDTOToFaculty(facultyDTO);
         for (Contact contact : faculty.getContacts()) {
             contact.setFaculty(faculty);
@@ -58,6 +65,11 @@ public class FacultyService {
     }
 
     public FacultyDTO updateFaculty(FacultyDTO facultyDTO) throws Exception {
+        Validator facultyValidator = ValidatorFactory.create("faculty");
+        if(!facultyValidator.validate(facultyDTO)) {
+            throw new Exception(facultyValidator.getErrorMessage());
+        }
+        
         Faculty faculty = FacultyMapper.INSTANCE.facultyDTOToFaculty(facultyDTO);
         for (Contact contact : faculty.getContacts()) {
             contact.setFaculty(faculty);
